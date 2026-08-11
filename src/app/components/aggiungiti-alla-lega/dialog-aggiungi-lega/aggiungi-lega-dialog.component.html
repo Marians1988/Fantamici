@@ -1,0 +1,65 @@
+<div class="flex flex-col w-full p-6">
+    <h2 class="text-2xl font-bold mb-4 text-[#005cbb]">Aggiungiti alla Lega</h2>
+    <form
+        id="form-container"
+        [formGroup]="profileForm"
+        (ngSubmit)="onSubmit()"
+        class="w-full mt-4 flex flex-col"
+    >
+        <mat-label class="text-[#005cbb]">Nome della Squadra</mat-label>
+        <mat-form-field class="w-full" appearance="outline">
+            <input 
+                id="nome-squadra"
+                matInput
+                formControlName="nomeSquadra"
+                placeholder="nome della squadra"  
+                type="text"
+                aria-label="Nome della Squadra"
+            >
+            @if(profileForm.controls.nomeSquadra.getError('required')){
+                <mat-error>
+                    Il nome della squadra è obbligatorio
+                </mat-error>
+            }
+             @if(profileForm.controls.nomeSquadra.getError('minlength')){
+                <mat-error>
+                    Almeno 3 caratteri
+                </mat-error>
+            }
+        </mat-form-field>
+        <mat-label class="text-[#005cbb]">Gettone di Accesso</mat-label>
+        <mat-form-field class="w-full" appearance="outline">
+            <input 
+                id="gettone-accesso"
+                formControlName="gettoneAccesso" 
+                matInput 
+                placeholder="gettone di accesso"  
+                type="text"
+                aria-label="Gettone di Accesso"
+            >
+            @if(profileForm.controls.gettoneAccesso.hasError('required')){
+                <mat-error>
+                    Il gettone di accesso è obbligatorio
+                </mat-error>
+            }
+            @if(profileForm.controls.gettoneAccesso.hasError('minlength')){
+                <mat-error>
+                    Almeno 6 caratteri
+                </mat-error>
+            }
+            @if(profileForm.controls.gettoneAccesso.hasError('maxlength')){
+                <mat-error>
+                    Al massimo 16 caratteri
+                </mat-error>
+            }
+            @if(profileForm.controls.gettoneAccesso.hasError('pattern')){
+                <mat-error>
+                    Il gettone di accesso deve contenere solo numeri
+                </mat-error>
+            }
+        </mat-form-field>
+        <button class="mt-1" type="submit" matButton="outlined" [disabled]="!profileForm.valid" (click)="onSubmit()">
+            Aggiungiti alla Lega!
+        </button>
+    </form>
+</div>

@@ -1,0 +1,89 @@
+<form
+    id="form-container"
+    [formGroup]="profileForm"
+    (ngSubmit)="onSubmit()"
+    class="w-full mt-4 p-6 flex flex-col"
+>
+    <mat-label>Nome della Lega</mat-label>
+    <mat-form-field class="w-full" appearance="outline">
+        <input 
+            id="nome-lega"
+            matInput
+            formControlName="nomeLega"
+            placeholder="nome della lega"  
+            type="text"
+            aria-label="Nome della Lega"
+        >
+        @if(profileForm.controls.nomeLega.getError('required')){
+            <mat-error>
+                Il nome della lega è obbligatorio
+            </mat-error>
+        }
+    </mat-form-field>
+    <mat-label>Numero di Squadre</mat-label>
+    <mat-form-field class="w-full" appearance="outline">
+        <input 
+            id="numero-squadre"
+            formControlName="numeroSquadre" 
+            matInput 
+            placeholder="numero di squadre"  
+            type="number"
+            aria-label="Numero di Squadre"
+        >
+        @if(profileForm.controls.numeroSquadre.getError('required')){
+            <mat-error>
+                Il numero di squadre è obbligatorio
+            </mat-error>
+        }
+        @if(profileForm.controls.numeroSquadre.getError('min')){
+            <mat-error>
+                Il numero di squadre deve essere maggiore o uguale a 4
+            </mat-error>
+        }
+        @if(profileForm.controls.numeroSquadre.getError('max')){
+            <mat-error>
+                Il numero di squadre deve essere minore o uguale a 16
+            </mat-error>
+        }
+    </mat-form-field>
+    <mat-label>Squadra Iniziale</mat-label>
+    <mat-form-field class="w-full" appearance="outline">
+        <input 
+            id="squadra-iniziale"
+            formControlName="squadraIniziale" 
+            matInput 
+            placeholder="squadra iniziale"  
+            type="text"
+            aria-label="Squadra Iniziale"
+        >
+        @if(profileForm.controls.squadraIniziale.getError('required')){
+            <mat-error>
+                La squadra iniziale è obbligatoria
+            </mat-error>
+        }
+    </mat-form-field>
+    <mat-label>Budget Iniziale</mat-label>
+    <mat-form-field class="w-full" appearance="outline">
+        <input 
+            id="budget-iniziale"
+            formControlName="budgetIniziale" 
+            matInput 
+            placeholder="budget"  
+            type="number"
+            aria-label="Budget Iniziale"
+        >
+        @if(profileForm.controls.budgetIniziale.getError('required')){
+            <mat-error>
+                Il budget iniziale è obbligatorio
+            </mat-error>
+        }
+        @if(profileForm.controls.budgetIniziale.getError('min')){
+            <mat-error>
+                Il budget iniziale deve essere maggiore o uguale a 0
+            </mat-error>
+        }
+    </mat-form-field>
+    <button type="submit" matButton="outlined" [disabled]="!profileForm.valid" (click)="onSubmit()">
+        Aggiungi Lega
+    </button>
+</form>

@@ -1,0 +1,73 @@
+<div id="lega-details" class="flex flex-col md:flex-row">
+    <div id="container-crea-lega" class="flex flex-col p-6">
+        <p class="text-2xl font-bold mb-2">Ciao  {{ authService.getName() }} {{ authService.getSurname() }}! </p>
+        <p class="text-lg mb-2">Benvenuto nella lega <span class="font-bold">{{ legaService.legaResponseDTO()?.nome }}</span></p>
+        <p class="text-lg mb-4">In questa sezione puoi accedere a tutti i dettagli delle squadred della tua lega.</p>
+        @if(authService.isAdmin()) {
+            <div class="flex flex-row items-start">
+                <div class="pt-1 pr-1"><mat-icon aria-hidden="false" aria-label="info icone" fontIcon="info"></mat-icon></div>
+                <p class="text-lg">Puoi invitare i tuoi amici a partecipare condividendo il gettone della lega.</p> 
+            </div>
+            <mat-chip class="self-start mb-4">
+                <span class="font-bold" >{{ legaService.getLegaResponseDTO()?.id?.toString() || '' }}</span>
+            </mat-chip>
+        }
+        <mat-card class="mat-mdc-card pb-2" appearance="outlined">
+            <mat-card-header>
+                <div 
+                    mat-card-avatar 
+                    class="bg-[#005cbb] text-white flex items-center justify-center rounded-full"
+                >
+                    <mat-icon>sports_soccer</mat-icon>
+                </div>
+                <mat-card-title>
+                    DETTAGLI LEGA: {{ legaService.legaResponseDTO()?.nome }} 2026/2027
+                </mat-card-title>
+                <mat-card-subtitle>Data creazione: <span class=" text-black">15 Agosto 2026</span></mat-card-subtitle>
+                <mat-card-subtitle>Numero partecipanti: <span class=" text-black">{{ legaService.legaResponseDTO()?.numeroSquadre }}</span></mat-card-subtitle>
+                <mat-card-subtitle>Budget rimanente: <span class=" text-black">$1000</span></mat-card-subtitle>
+                <mat-card-subtitle>Status: <span class=" text-green-500">Attiva</span></mat-card-subtitle>
+                <mat-card-subtitle>Regole: <span class=" text-black">Standard</span></mat-card-subtitle>
+            </mat-card-header>
+            @if(authService.isAdmin()) {
+                <mat-card-actions align="end" class="pt-2">
+                    <button mat-button color="primary" (click)="openEliminaLegaDialog()">ELIMINA LEGA</button>
+                </mat-card-actions>
+            }  
+        </mat-card>
+    </div>
+    <div id="squadre-fantacalcio" class="p-6 max-w-6xl mx-auto">
+    <h2 class="text-2xl font-bold mb-6 text-gray-800">Squadre Fantacalcio</h2>
+
+    <!-- Griglia a 3 colonne su schermi grandi, 2 su medi, 1 su mobile -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        @for (squadra of legaService.getLegaResponseDTO()?.squadre; track squadra.id) {
+        <mat-card appearance="outlined" class="flex flex-col justify-between h-full ">
+            <mat-card-header>
+            <div 
+                mat-card-avatar 
+                class="bg-[#005cbb] text-white flex items-center justify-center rounded-full"
+            >
+                <mat-icon>sports_soccer</mat-icon>
+            </div>
+            <mat-card-title class="font-semibold">{{ squadra.nomeSquadra }}</mat-card-title>
+            <mat-card-subtitle >Budget Iniziale: {{ legaService.getLegaResponseDTO()?.budgetIniziale }}</mat-card-subtitle>
+            </mat-card-header>
+
+            <mat-card-content class="mt-4">
+            <div class="space-y-2 text-sm text-gray-700">
+                <p><span class="font-medium text-gray-900">Crediti residui:</span> {{ squadra.budgetRimanente }} FM</p>
+                <p><span class="font-medium text-gray-900">Rosa:</span> 25 giocatori</p>
+            </div>
+            </mat-card-content>
+
+            @if(authService.isAdmin()) {
+                <mat-card-actions align="end" class="pt-2">
+                    <button mat-button color="primary">GESTISCI ROSA</button>
+                </mat-card-actions>
+            }
+        </mat-card>
+        }
+    </div>
+    </div>
+</div>

@@ -1,0 +1,13 @@
+<mat-toolbar class="flex flex-row justify-between">
+    <div>
+        @if(dashboard()){
+            <button mat-icon-button class="mr-4 mt-2">
+                <mat-icon (click)="back.emit()">arrow_back</mat-icon>
+            </button>
+        }
+      <span>Asta Fanta Amici</span>
+    </div>
+    <div>
+        <button mat-button type="button" (click)="logout()">Logout</button>
+    </div>
+</mat-toolbar>

@@ -1,0 +1,26 @@
+<app-header-app-component (back)="navigateTo('')" [dashboard]="false"></app-header-app-component>
+<mat-tab-group [selectedIndex]="selectedTabIndex" (selectedTabChange)="onTabChange($event.index)">
+    <mat-tab class="flex flex-row shrink-0" label="La tua lega">
+      <div class="w-full min-h-[calc(100vh-120px)] bg-[url('/calcio.jpeg')] bg-no-repeat bg-cover bg-center p-4 md:p-6">
+        <div class="flex flex-col bg-white/80 backdrop-blur-md p-6 rounded-xl shadow-lg border border-white/20"> 
+            @if (authService.isAdmin() && emptyLega()) {
+              <app-crea-lega-app-component ></app-crea-lega-app-component>
+            }
+            @else if (!authService.isAdmin() && emptyLega()) {
+              <app-aggiungiti-alla-lega-app-component></app-aggiungiti-alla-lega-app-component> 
+            }
+            @else if (!emptyLega()) {
+              <app-lega-details-app-component></app-lega-details-app-component>
+            }
+        </div>
+      </div>   
+    </mat-tab>
+    <mat-tab class="flex flex-row shrink-0" [label]="authService.isAdmin() ? 'Gestione Rose' : 'Formazioni'">
+      <div class="w-full min-h-[calc(100vh-120px)] bg-[url('/calcio.jpeg')] bg-no-repeat bg-cover bg-center p-4 md:p-6">
+        <div class="flex flex-col bg-white/80 backdrop-blur-md p-6 rounded-xl shadow-lg border border-white/20"> 
+          <app-rose-details-app-component ></app-rose-details-app-component>
+        </div>
+      </div>   
+    </mat-tab>
+</mat-tab-group>
+

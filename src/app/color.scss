@@ -1,0 +1,10 @@
+@use 'sass:map';
+
+$color-config: (
+    background: var(--mat-sys-backgroun),
+    surface: var(--mat-sys-surface),
+    primary: var(--mat-sys-primary),
+    secondary: var(--mat-sys-secondary),
+    tertiary: var(--mat-sys-tertiary),
+    error:  var(--mat-sys-error),
+)
