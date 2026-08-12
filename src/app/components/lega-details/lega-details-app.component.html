@@ -1,7 +1,7 @@
 <div id="lega-details" class="flex flex-col md:flex-row">
     <div id="container-crea-lega" class="flex flex-col p-6">
         <p class="text-2xl font-bold mb-2">Ciao  {{ authService.getName() }} {{ authService.getSurname() }}! </p>
-        <p class="text-lg mb-2">Benvenuto nella lega <span class="font-bold">{{ legaService.legaResponseDTO()?.nome }}</span></p>
+        <p class="text-lg mb-2">Benvenuto nella lega <span class="font-bold">{{ legaService.getLegaResponseDTO()?.nome }}</span></p>
         <p class="text-lg mb-4">In questa sezione puoi accedere a tutti i dettagli delle squadred della tua lega.</p>
         @if(authService.isAdmin()) {
             <div class="flex flex-row items-start">
@@ -21,10 +21,10 @@
                     <mat-icon>sports_soccer</mat-icon>
                 </div>
                 <mat-card-title>
-                    DETTAGLI LEGA: {{ legaService.legaResponseDTO()?.nome }} 2026/2027
+                    DETTAGLI LEGA: {{ legaService.getLegaResponseDTO()?.nome }} 2026/2027
                 </mat-card-title>
                 <mat-card-subtitle>Data creazione: <span class=" text-black">15 Agosto 2026</span></mat-card-subtitle>
-                <mat-card-subtitle>Numero partecipanti: <span class=" text-black">{{ legaService.legaResponseDTO()?.numeroSquadre }}</span></mat-card-subtitle>
+                <mat-card-subtitle>Numero partecipanti: <span class=" text-black">{{ legaService.getLegaResponseDTO() }}</span></mat-card-subtitle>
                 <mat-card-subtitle>Budget rimanente: <span class=" text-black">$1000</span></mat-card-subtitle>
                 <mat-card-subtitle>Status: <span class=" text-green-500">Attiva</span></mat-card-subtitle>
                 <mat-card-subtitle>Regole: <span class=" text-black">Standard</span></mat-card-subtitle>

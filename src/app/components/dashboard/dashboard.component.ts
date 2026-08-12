@@ -23,8 +23,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>();
   readonly authService = inject(AuthService);
   public emptyLega = computed(() => {
-    console.log('Computed emptyLega called, current legaResponseDTO:', this.legaService.legaResponseDTO() === undefined);
-    return this.legaService.legaResponseDTO() === undefined || this.legaService.legaResponseDTO() === null;
+    console.log('Computed emptyLega called, current legaResponseDTO:', this.legaService.getLegaResponseDTO() === undefined);
+    return this.legaService.getLegaResponseDTO() === undefined || this.legaService.getLegaResponseDTO() === null;
   });
 
   get selectedTabIndex() {
@@ -75,8 +75,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (roseData) => {
-          const { squadre = [] } = roseData;
-          this.legaService.setRosaSquadraDTO(squadre);
+          const { rose = [] } = roseData;
+          this.legaService.setRosaSquadraDTO(rose);
         },
         error: (err) => {
           console.error('Errore durante il recupero delle rose:', err);

@@ -1,0 +1,76 @@
+<mat-card class="w-full h-full flex flex-col justify-between shadow-md overflow-hidden">
+  <div>
+    <mat-card-header class="pb-2">
+      <mat-card-title class="text-lg sm:text-xl font-bold">
+        <div>{{ rosa().nomeSquadra }}</div>  
+      </mat-card-title>
+      <mat-card-subtitle>
+        Budget rimanente: {{ rosa().budgetRimanente }}
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content class="pt-2 px-1 sm:px-4 overflow-x-auto">
+      <table mat-table [dataSource]="rosa().calciatori" class="w-full table-fixed sm:table-auto">
+
+        <!-- Colonna Ruolo -->
+        <ng-container matColumnDef="ruolo">
+          <th mat-header-cell *matHeaderCellDef class="font-semibold !px-1 sm:!px-4 w-10 sm:w-auto text-center">
+            <span class="sm:hidden">R</span>
+            <span class="hidden sm:inline">Ruolo</span>
+          </th>
+          <td mat-cell *matCellDef="let g" class="!px-1 sm:!px-4 text-center">
+            <span 
+              class="inline-flex items-center justify-center w-6 h-6 sm:w-7 sm:h-7 rounded-full font-bold text-xs shadow-sm"
+              [ngClass]="getRuoloClass(g.ruolo)">
+              {{ g.ruolo }}
+            </span>
+          </td>
+        </ng-container>
+
+        <!-- Colonna Calciatore (Nome visibile da 'sm' in poi) -->
+        <ng-container matColumnDef="calciatore">
+          <th mat-header-cell *matHeaderCellDef class="font-semibold !px-2 sm:!px-4"> Calciatore </th>
+          <td mat-cell *matCellDef="let g" class="!px-2 sm:!px-4 truncate sm:whitespace-normal">
+            <span class="truncate block sm:inline" title="{{ g.nome }} {{ g.cognome }}">
+              <span class="hidden sm:inline font-normal">{{ g.nome }} </span>
+              <span class="font-bold">{{ g.cognome }}</span>
+            </span>
+          </td>
+        </ng-container>
+
+        <!-- Colonna Prezzo -->
+        <ng-container matColumnDef="prezzo">
+          <th mat-header-cell *matHeaderCellDef class="font-semibold !px-1 sm:!px-4 w-12 sm:w-auto text-right sm:text-left"> Prezzo </th>
+          <td mat-cell *matCellDef="let g" class="!px-1 sm:!px-4 text-gray-600 font-medium text-xs sm:text-base text-right sm:text-left whitespace-nowrap">
+            {{ g.prezzoPagato }} FM
+          </td>
+        </ng-container>
+
+        <!-- Colonna Azioni (Elimina) -->
+         @if(authService.isAdmin()) {
+            <ng-container matColumnDef="azioni">
+            <th mat-header-cell *matHeaderCellDef class="text-center font-semibold !px-1 sm:!px-4 w-10 sm:w-auto">
+                <span class="hidden sm:inline">Azioni</span>
+            </th>
+            <td mat-cell *matCellDef="let g" class="!px-1 sm:!px-4 text-center">
+                <button mat-icon-button color="warn" class="!w-8 !h-8 sm:!w-10 sm:!h-10" (click)="onElimina(g.id)" aria-label="Elimina calciatore">
+                <mat-icon class="!text-lg sm:!text-xl">delete</mat-icon>
+                </button>
+            </td>
+            </ng-container>
+        }
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="hover:bg-slate-50 transition-colors"></tr>
+      </table>
+    </mat-card-content>
+  </div>
+
+    @if (authService.isAdmin()){
+        <mat-card-actions align="end" class="p-3 sm:p-4 border-t border-gray-100">
+            <button mat-raised-button color="primary" class="w-full sm:w-auto" (click)="openAggiungiCalciatoreDialog()">
+                <mat-icon>add</mat-icon> Aggiungi Calciatore
+            </button>
+        </mat-card-actions>
+    }
+  
+</mat-card>

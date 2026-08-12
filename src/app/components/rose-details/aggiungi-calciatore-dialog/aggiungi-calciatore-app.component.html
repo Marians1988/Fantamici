@@ -1,0 +1,75 @@
+<h2 mat-dialog-title class="!text-xl !font-bold !text-slate-800">
+  Aggiungi Nuovo Calciatore
+</h2>
+
+<mat-dialog-content class="!pt-4">
+  <form [formGroup]="playerForm" class="flex flex-col gap-3 min-w-[280px] sm:min-w-[360px]">
+    
+    <!-- Nome -->
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label class="text-black">Nome</mat-label>
+      <input 
+        matInput id="nome" 
+        formControlName="nome" 
+        placeholder="es. Mario"
+        aria-label="nome"
+      />
+      @if (playerForm.get('nome')?.hasError('required')) {
+        <mat-error>Il nome è obbligatorio</mat-error>
+      }
+    </mat-form-field>
+
+    <!-- Cognome -->
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label class="text-black" for="cognome">Cognome</mat-label>
+      <input matInput id="cognome" formControlName="cognome" placeholder="es. Rossi" aria-label="lastName" />
+      @if (playerForm.get('cognome')?.hasError('required')) {
+        <mat-error>Il cognome è obbligatorio</mat-error>
+      }
+    </mat-form-field>
+
+    <!-- Prezzo -->
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label class="text-black" for="prezzoPagato">Prezzo (€)</mat-label>
+      <input 
+        matInput 
+        id="prezzoPagato" 
+        type="number" 
+        step="1" 
+        formControlName="prezzoPagato" 
+        placeholder="es. 15" 
+        aria-label="prezzoPagato"
+      />
+      @if (playerForm.get('prezzo')?.hasError('required')) {
+        <mat-error>Il prezzo è obbligatorio</mat-error>
+      }
+    </mat-form-field>
+
+    <!-- Ruolo (Select Material) -->
+    <mat-form-field  appearance="outline" class="w-full">
+      <mat-label class="text-black" for="ruolo">Ruolo</mat-label>
+      <mat-select id="ruolo" formControlName="ruolo">
+        @for (r of roles; track r) {
+          <mat-option [value]="r.type">{{ r.value }}</mat-option>
+        }
+      </mat-select>
+      @if (playerForm.get('ruolo')?.hasError('required')) {
+        <mat-error>Seleziona un ruolo</mat-error>
+      }
+    </mat-form-field>
+
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" class="!pb-4 !px-6">
+  <button mat-button type="button" (click)="onCancel()">Annulla</button>
+  <button 
+    mat-raised-button 
+    color="primary" 
+    type="button" 
+    (click)="onSubmit()"
+    [disabled]="playerForm.invalid"
+  >
+    Salva
+  </button>
+</mat-dialog-actions>

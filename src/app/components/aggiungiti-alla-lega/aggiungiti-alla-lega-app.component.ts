@@ -37,9 +37,9 @@ export class AggiungitiAllaLegaAppComponent implements OnDestroy {
           .pipe(
               tap(() => {
                   this.snackBar.open('Squadra salvata con successo!', 'Chiudi', {
-                    duration: 3000,               // Durata in ms (3 secondi)
-                    horizontalPosition: 'center', // 'start' | 'center' | 'end' | 'left' | 'right'
-                    verticalPosition: 'bottom',   // 'top' | 'bottom'
+                    duration: 3000,               
+                    horizontalPosition: 'center', 
+                    verticalPosition: 'bottom', 
                   });
               }),
               catchError((error) => {

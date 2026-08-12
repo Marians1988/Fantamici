@@ -1,29 +1,52 @@
-import { Component, inject, OnDestroy,OnInit, signal, Signal, WritableSignal } from '@angular/core';
-import {MatCard, MatCardHeader, MatCardModule, MatCardSubtitle, MatCardTitle} from '@angular/material/card';
-import { AuthService } from '../../shared-service/auth-service';
-import { Subject} from 'rxjs';
+import { Component, inject, OnDestroy} from '@angular/core';
+import { mergeMap, Subject, takeUntil} from 'rxjs';
 import { LegaService } from '../../shared-service/lega.service';
-import { MatButton } from '@angular/material/button';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { MatIcon } from '@angular/material/icon';
 import {MatChipsModule} from '@angular/material/chips';
-import { LegaRoseResponseDTO } from '../../assets/LegaRoseResponseDTO';
+import { FormazioneAppComponent } from './formazione/formazione-app.component';
+import { Calciatore } from '../../models/models';
+import { AssegnazioneAstaDTO } from '../../assets/AssegnazioneAstaDTO';
 
 @Component({
   selector: 'app-rose-details-app-component',
-  imports: [MatCard,MatCardHeader,MatCardTitle,MatCardSubtitle,MatCardModule,MatButton,MatIcon,MatChipsModule],
+  imports: [MatChipsModule,FormazioneAppComponent],
   templateUrl: './rose-details-app.component.html',
   styleUrl: './rose-details-app.component.scss',
 })
 export class RoseDetailsAppComponent implements OnDestroy {
+  
   readonly legaService = inject(LegaService);
-  readonly legaId = this.legaService.getLegaResponseDTO()?.id.toString() || '';
   private readonly destroy$ = new Subject<void>();
-  readonly authService = inject(AuthService);
 
- 
   ngOnDestroy(): void {
     this.destroy$.next();    // Invia il segnale di stop a tutte le pipe in ascolto
     this.destroy$.complete(); // Chiude definitivamente il Subject
   }
+
+  handleEliminaGiocatore(event: { rosaId: number; giocatoreId: number }): void {
+    // const rosa = this.rose.find(r => r.id === event.rosaId);
+    // if (rosa) {
+    //   rosa.giocatori = rosa.giocatori.filter(g => g.id !== event.giocatoreId);
+    // }
+  }
+
+  handleAggiungiGiocatore(newCalciatore: Calciatore): void {
+    const{nome, cognome, prezzoPagato, ruolo, squadraId = 0} = newCalciatore || {};
+    const astaAssegnazione: AssegnazioneAstaDTO = {
+      nome,cognome,prezzoPagato,ruolo,squadraId
+    }
+    this.legaService.aggiungiGiocatore(astaAssegnazione)
+    .pipe(
+      mergeMap(()=> this.legaService.getRose(this.legaService.getLegaResponseDTO()?.id || 0)),
+      takeUntil(this.destroy$)
+    )
+    .subscribe({
+          next: (roseData) => {
+            const { rose = [] } = roseData;
+            this.legaService.setRosaSquadraDTO(rose);
+          },
+          error: (err) => {
+            console.error('Errore durante il salvataggio del nuovo giocatore:', err);
+          }
+    });
+   }
 }

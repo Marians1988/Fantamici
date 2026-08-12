@@ -2,6 +2,7 @@
 @use 'sass:map';
 :host {
     display: flex;
+    flex-direction: column;
     overflow-y: auto;
-   
+
 }

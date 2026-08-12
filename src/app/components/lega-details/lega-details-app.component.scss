@@ -2,7 +2,6 @@
 @use 'sass:map';
 :host {
     display: flex;
-    min-width: 360px;
     overflow-y: auto;
    
 }
@@ -10,7 +9,7 @@
 .mat-mdc-card {
   @include mat.card-overrides((
     subtitle-text-color:#005cbb,
-    outlined-container-color:#e1edf9,
+    outlined-container-color:#f5f8fa,
     outlined-outline-color: #005cbb,
     outlined-outline-width: 4px
   ));
