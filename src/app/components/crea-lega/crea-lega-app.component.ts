@@ -41,6 +41,10 @@ export class CreaLegaAppComponent implements OnDestroy {
       tap(lega => {
         console.log('Lega creata:', lega);
         this.legaService.setLegaResponseDTO(lega);
+        const{numeroPortieri,numeroDifensori,numeroCentrocampisti,numeroAttaccanti} = lega ;
+        const numeroRosa = numeroPortieri+numeroDifensori+numeroCentrocampisti+numeroAttaccanti;
+        console.log(numeroRosa,'numeriRosa');
+        this.legaService.setNumeroCalciatoriPerRosa(numeroRosa);
       }),
       takeUntil(this.destroy$))
      .subscribe();

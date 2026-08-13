@@ -1,7 +1,7 @@
 import { Component, inject, input, OnDestroy,output} from '@angular/core';
 import {MatCard, MatCardHeader, MatCardModule, MatCardSubtitle, MatCardTitle} from '@angular/material/card';
 import { AuthService } from '../../shared-service/auth-service';
-import { Subject} from 'rxjs';
+import { EMPTY, mergeMap, Subject, takeUntil} from 'rxjs';
 import { LegaService } from '../../shared-service/lega.service';
 import { MatButton } from '@angular/material/button';
 import { DialogData, GenericDialogComponent } from '../dialogs/generic-dialog.component';
@@ -30,34 +30,40 @@ export class LegaDetailsAppComponent implements OnDestroy {
   }
 
   openEliminaLegaDialog(): void {
-      const dialogData: DialogData = {
-        title: 'Elimina Lega',
-        message: 'Sei sicuro di voler procedere con l\'eliminazione? L\'azione è irreversibile.',
-        buttons: [
-          { label: 'Annulla', value: false },
-          { label: 'Elimina', value: true, color: 'warn' }
-        ]
-      };
+    const dialogData: DialogData = {
+      title: 'Elimina Lega',
+      message: 'Sei sicuro di voler procedere con l\'eliminazione? L\'azione è irreversibile.',
+      buttons: [
+        { label: 'Annulla', value: false },
+        { label: 'Elimina', value: true, color: 'warn' }
+      ]
+    };
 
-      const dialogRef = this.dialog.open(GenericDialogComponent, {
-        width: '400px',
-        data: dialogData
-      });
+    const dialogRef = this.dialog.open(GenericDialogComponent, {
+      width: '400px',
+      data: dialogData
+    });
 
-      dialogRef.afterClosed().subscribe((result) => {
-        if (result) {
-          this.legaService.eliminaLega().subscribe({
-            next: () => {
-              console.log('Lega eliminata con successo.');
-              this.legaService.setLegaResponseDTO(undefined);
-            },
-            error: (err) => {
-              console.error('Errore durante l\'eliminazione della lega:', err);
+    dialogRef.afterClosed()
+      .pipe(
+        mergeMap((result=>{
+            if(result){
+              return this.legaService.eliminaLega();
+            }else {
+              return EMPTY;
             }
-          });
-        } else {
-          console.log('Operazione annullata dall\'utente.');
+          })
+        ),
+        takeUntil(this.destroy$)
+      )
+      .subscribe({
+        next: () => {
+          console.log('Lega eliminata con successo.');
+          this.legaService.setLegaResponseDTO(undefined);
+        },
+        error: (err) => {
+          console.error('Errore durante l\'eliminazione della lega:', err);
         }
-      });
+      })
   }
 }

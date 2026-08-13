@@ -1,14 +1,40 @@
 <div id="lega-details" class="flex flex-col flex-grow md:flex-row">
     <div id="squadre-fantacalcio" class="p-4 sm:p-6 w-full max-w-full overflow-x-hidden">
         <h2 class="text-2xl font-bold mb-6 text-gray-800">Le Rose della Lega</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 w-full">
-            @for (rosa of this.legaService.getRosaSquadraDTO(); track rosa.squadraId) {
-            <app-formazione-component  
-                [rosa]="rosa"
-                (eliminaGiocatore)="handleEliminaGiocatore($event)"
-                (aggiungiGiocatore)="handleAggiungiGiocatore($event)">
-            </app-formazione-component>
+        @if(legaService.getLegaResponseDTO() === undefined || legaService.getLegaResponseDTO() === null){
+            <div class="flex items-center gap-3 rounded-lg border border-blue-200 bg-blue-50 p-4 text-blue-900 shadow-sm dark:border-blue-800/50 dark:bg-blue-950/40 dark:text-blue-200" role="alert">
+                <mat-icon class="shrink-0 text-blue-600 dark:text-blue-400">info</mat-icon>
+                <div class="text-sm font-medium leading-relaxed">
+                    {{
+                        authService.isAdmin()? "Cosa aspetti crea subito una tua lega ed invita i tuoi amici a partecipare!": 
+                        "Non fai parte ancora di nessuna lega. Cosa aspetti, aggiungiti a una lega!"
+                    }} 
+                </div>
+            </div>
+        }@else if((legaService.getLegaResponseDTO()?.numeroSquadre ?? 0) > (legaService.getRosaSquadraDTO()?.length ?? 0)){
+            <div class="flex items-start gap-3 rounded-lg border border-blue-200 bg-blue-50 p-4 text-blue-900 shadow-sm dark:border-blue-800/50 dark:bg-blue-950/40 dark:text-blue-200" role="alert">
+                <mat-icon class="shrink-0 text-blue-600 dark:text-blue-400 mt-0.5">info</mat-icon>
+                <div class="flex flex-col gap-1">
+                    <p class="text-sm font-semibold leading-relaxed">
+                        La lega è quasi completa. Mancano ancora 
+                        {{ (legaService.getLegaResponseDTO()?.numeroSquadre ?? 0) - (legaService.getRosaSquadraDTO()?.length ?? 0) }} 
+                        squadre per completare la lega!
+                    </p>
+                    <p class="text-xs text-blue-800 dark:text-blue-300">
+                        Invita i tuoi amici a partecipare, invia loro il codice di lega per completare!
+                    </p>
+                </div>
+            </div>
+        }@else {
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 w-full">
+            @for (rosa of legaService.getRosaSquadraDTO(); track rosa.squadraId) {
+                <app-formazione-component  
+                    [rosa]="rosa"
+                    (eliminaGiocatore)="handleEliminaGiocatore($event)"
+                    (aggiungiGiocatore)="handleAggiungiGiocatore($event)">
+                </app-formazione-component>
             }
-        </div>
+            </div>
+        }
     </div>
 </div>

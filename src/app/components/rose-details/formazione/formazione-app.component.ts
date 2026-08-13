@@ -70,7 +70,7 @@ export class FormazioneAppComponent implements OnInit, OnDestroy {
     return this.ruoloClasses[ruolo as keyof typeof this.ruoloClasses] ?? 'bg-gray-400 text-white';
   }
 
-    onElimina(giocatoreId: number): void {
+    onEliminaCalciatore(giocatoreId: number): void {
       this.eliminaGiocatore.emit({ rosaId: this.rosa().squadraId, giocatoreId });
     }
 

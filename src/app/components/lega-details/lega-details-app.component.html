@@ -57,7 +57,7 @@
             <mat-card-content class="mt-4">
             <div class="space-y-2 text-sm text-gray-700">
                 <p><span class="font-medium text-gray-900">Crediti residui:</span> {{ squadra.budgetRimanente }} FM</p>
-                <p><span class="font-medium text-gray-900">Rosa:</span> 25 giocatori</p>
+                <p><span class="font-medium text-gray-900">Rosa:</span> {{legaService.getNumeroCalciatoriPerRosa()}} giocatori</p>
             </div>
             </mat-card-content>
 

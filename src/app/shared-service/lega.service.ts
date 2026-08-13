@@ -18,7 +18,15 @@ export class LegaService {
     refreshRose$ = new Subject<void>();
     private readonly legaResponseDTO = signal<LegaResponseDTO | undefined>(undefined);
     private readonly roseSquadraDTO = signal<RosaSquadraDTO[] | undefined>(undefined);
+    private readonly numeroCalciatoriPerRosa = signal<number>(0);
 
+    public setNumeroCalciatoriPerRosa(numero:number) {
+        this.numeroCalciatoriPerRosa.set(numero);
+    }
+
+    public getNumeroCalciatoriPerRosa() {
+        return this.numeroCalciatoriPerRosa();
+    }
 
     public setLegaResponseDTO(lega: LegaResponseDTO | undefined): void {
         this.legaResponseDTO.set(lega);
@@ -52,12 +60,13 @@ export class LegaService {
     public aggiungiGiocatore(assegnazioneAsta: AssegnazioneAstaDTO): Observable<AstaNotificationDTO> {
         return this.http.post<AstaNotificationDTO>(`${environment.apiUrl}/api/admin/asta/assegna`, assegnazioneAsta);
     }
+
+    public eliminaGiocatore(squadraId: string, calciatoreId: string): Observable<void> {
+        return this.http.delete<void>(`${environment.apiUrl}/api/admin/asta/squadre/${squadraId}/calciatori/${calciatoreId}`);
+    }
         
     public aggiungiSquadra(newSquadra: AggiungiSquadraDTO): Observable<string> {
         return this.http.post(`${environment.apiUrl}/api/leghe`, newSquadra,{ responseType: 'text'});
     }
-
-  
-
     
 }

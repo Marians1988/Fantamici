@@ -1,5 +1,3 @@
-import { CalciatoreDTO } from "../assets/CalciatoreDTO";
-
 export interface Calciatore {
   squadraId?: number,
   nome: string;

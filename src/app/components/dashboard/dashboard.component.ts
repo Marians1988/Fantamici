@@ -63,6 +63,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
         next: (lega) => {
           console.log('Leghe retrieved:', lega);
           this.legaService.setLegaResponseDTO(lega);
+          const{numeroPortieri,numeroDifensori,numeroCentrocampisti,numeroAttaccanti} = lega ;
+          const numeroRosa = numeroPortieri+numeroDifensori+numeroCentrocampisti+numeroAttaccanti;
+          this.legaService.setNumeroCalciatoriPerRosa(numeroRosa);
         },
         error: (err) => {
           console.error('Errore durante il recupero delle leghe:', err);

@@ -2,88 +2,194 @@
     id="form-container"
     [formGroup]="profileForm"
     (ngSubmit)="onSubmit()"
-    class="w-full mt-4 p-6 flex flex-col"
+    class="w-full max-h-[80vh] overflow-y-auto p-4 sm:p-6 grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3"
 >
-    <mat-label>Nome della Lega</mat-label>
-    <mat-form-field class="w-full" appearance="outline">
-        <input 
-            id="nome-lega"
-            matInput
-            formControlName="nomeLega"
-            placeholder="nome della lega"  
-            type="text"
-            aria-label="Nome della Lega"
+    <!-- COLONNA 1 - CAMPO 1: Nome Lega -->
+    <div class="flex flex-col">
+        <mat-label class="mb-1 font-medium">Nome della Lega</mat-label>
+        <mat-form-field class="w-full" appearance="outline">
+            <input 
+                id="nome-lega"
+                matInput
+                formControlName="nomeLega"
+                placeholder="nome della lega"  
+                type="text"
+                aria-label="Nome della Lega"
+            >
+            @if(profileForm.controls.nomeLega.getError('required')){
+                <mat-error>Il nome della lega è obbligatorio</mat-error>
+            }
+        </mat-form-field>
+    </div>
+
+    <!-- COLONNA 1 - CAMPO 2: Numero Squadre -->
+    <div class="flex flex-col">
+        <mat-label class="mb-1 font-medium">Numero di Squadre</mat-label>
+        <mat-form-field class="w-full" appearance="outline">
+            <input 
+                id="numero-squadre"
+                formControlName="numeroSquadre" 
+                matInput 
+                placeholder="numero di squadre"  
+                type="number"
+                aria-label="Numero di Squadre"
+            >
+            @if(profileForm.controls.numeroSquadre.getError('required')){
+                <mat-error>Il numero di squadre è obbligatorio</mat-error>
+            }
+            @if(profileForm.controls.numeroSquadre.getError('min')){
+                <mat-error>Il numero di squadre deve essere maggiore o uguale a 4</mat-error>
+            }
+            @if(profileForm.controls.numeroSquadre.getError('max')){
+                <mat-error>Il numero di squadre deve essere minore o uguale a 16</mat-error>
+            }
+        </mat-form-field>
+    </div>
+
+    <!-- COLONNA 1 - CAMPO 3: Squadra Iniziale -->
+    <div class="flex flex-col">
+        <mat-label class="mb-1 font-medium">Squadra Iniziale</mat-label>
+        <mat-form-field class="w-full" appearance="outline">
+            <input 
+                id="squadra-iniziale"
+                formControlName="squadraIniziale" 
+                matInput 
+                placeholder="squadra iniziale"  
+                type="text"
+                aria-label="Squadra Iniziale"
+            >
+            @if(profileForm.controls.squadraIniziale.getError('required')){
+                <mat-error>La squadra iniziale è obbligatoria</mat-error>
+            }
+        </mat-form-field>
+    </div>
+
+    <!-- COLONNA 1 - CAMPO 4: Budget Iniziale -->
+    <div class="flex flex-col">
+        <mat-label class="mb-1 font-medium">Budget Iniziale</mat-label>
+        <mat-form-field class="w-full" appearance="outline">
+            <input 
+                id="budget-iniziale"
+                formControlName="budgetIniziale" 
+                matInput 
+                placeholder="budget"  
+                type="number"
+                aria-label="Budget Iniziale"
+            >
+            @if(profileForm.controls.budgetIniziale.getError('required')){
+                <mat-error>Il budget iniziale è obbligatorio</mat-error>
+            }
+            @if(profileForm.controls.budgetIniziale.getError('min')){
+                <mat-error>Il budget iniziale deve essere maggiore o uguale a 0</mat-error>
+            }
+        </mat-form-field>
+    </div>
+
+    <!-- COLONNA 2 - CAMPO 5: Numero Portieri -->
+    <div class="flex flex-col">
+        <mat-label class="mb-1 font-medium">Numero Portieri</mat-label>
+        <mat-form-field class="w-full" appearance="outline">
+            <input 
+                id="numero-portieri"
+                formControlName="numeroPortieri" 
+                matInput 
+                placeholder="numero di Portieri"  
+                type="number"
+                aria-label="Numero di Portieri"
+            >
+            @if(profileForm.controls.numeroPortieri.getError('required')){
+                <mat-error>Il numero di Portieri è obbligatorio</mat-error>
+            }
+            @if(profileForm.controls.numeroPortieri.getError('min')){
+                <mat-error>Il numero di Portieri deve essere maggiore o uguale a 1</mat-error>
+            }
+            @if(profileForm.controls.numeroPortieri.getError('max')){
+                <mat-error>Il numero di Portieri deve essere minore o uguale a 8</mat-error>
+            }
+        </mat-form-field>
+    </div>
+
+    <!-- COLONNA 2 - CAMPO 6: Numero Difensori -->
+    <div class="flex flex-col">
+        <mat-label class="mb-1 font-medium">Numero Difensori</mat-label>
+        <mat-form-field class="w-full" appearance="outline">
+            <input 
+                id="numero-difensori"
+                formControlName="numeroDifensori" 
+                matInput 
+                placeholder="numero di Difensori"  
+                type="number"
+                aria-label="Numero di Difensori"
+            >
+            @if(profileForm.controls.numeroDifensori.getError('required')){
+                <mat-error>Il numero di Difensori è obbligatorio</mat-error>
+            }
+            @if(profileForm.controls.numeroDifensori.getError('min')){
+                <mat-error>Il numero di Difensori deve essere maggiore o uguale a 1</mat-error>
+            }
+            @if(profileForm.controls.numeroDifensori.getError('max')){
+                <mat-error>Il numero di Difensori deve essere minore o uguale a 18</mat-error>
+            }
+        </mat-form-field>
+    </div>
+
+    <!-- COLONNA 2 - CAMPO 7: Numero Centrocampisti -->
+    <div class="flex flex-col">
+        <mat-label class="mb-1 font-medium">Numero Centrocampisti</mat-label>
+        <mat-form-field class="w-full" appearance="outline">
+            <input 
+                id="numero-centrocampisti"
+                formControlName="numeroCentrocampisti" 
+                matInput 
+                placeholder="numero di Centrocampisti"  
+                type="number"
+                aria-label="Numero di Centrocampisti"
+            >
+            @if(profileForm.controls.numeroCentrocampisti.getError('required')){
+                <mat-error>Il numero di Centrocampisti è obbligatorio</mat-error>
+            }
+            @if(profileForm.controls.numeroCentrocampisti.getError('min')){
+                <mat-error>Il numero di Centrocampisti deve essere maggiore o uguale a 1</mat-error>
+            }
+            @if(profileForm.controls.numeroCentrocampisti.getError('max')){
+                <mat-error>Il numero di Centrocampisti deve essere minore o uguale a 18</mat-error>
+            }
+        </mat-form-field>
+    </div>
+
+    <!-- COLONNA 2 - CAMPO 8: Numero Attaccanti -->
+    <div class="flex flex-col">
+        <mat-label class="mb-1 font-medium">Numero Attaccanti</mat-label>
+        <mat-form-field class="w-full" appearance="outline">
+            <input 
+                id="numero-attaccanti"
+                formControlName="numeroAttaccanti" 
+                matInput 
+                placeholder="numero di Attaccanti"  
+                type="number"
+                aria-label="Numero di Attaccanti"
+            >
+            @if(profileForm.controls.numeroAttaccanti.getError('required')){
+                <mat-error>Il numero di Attaccanti è obbligatorio</mat-error>
+            }
+            @if(profileForm.controls.numeroAttaccanti.getError('min')){
+                <mat-error>Il numero di Attaccanti deve essere maggiore o uguale a 1</mat-error>
+            }
+            @if(profileForm.controls.numeroAttaccanti.getError('max')){
+                <mat-error>Il numero di Attaccanti deve essere minore o uguale a 8</mat-error>
+            }
+        </mat-form-field>
+    </div>
+
+    <!-- PULSANTE DI SUBMIT (Occupa entrambe le colonne su desktop) -->
+    <div class="md:col-span-2 flex justify-end mt-2">
+        <button 
+            type="submit" 
+            matButton="outlined" 
+            class="w-full md:w-auto"
+            [disabled]="!profileForm.valid"
         >
-        @if(profileForm.controls.nomeLega.getError('required')){
-            <mat-error>
-                Il nome della lega è obbligatorio
-            </mat-error>
-        }
-    </mat-form-field>
-    <mat-label>Numero di Squadre</mat-label>
-    <mat-form-field class="w-full" appearance="outline">
-        <input 
-            id="numero-squadre"
-            formControlName="numeroSquadre" 
-            matInput 
-            placeholder="numero di squadre"  
-            type="number"
-            aria-label="Numero di Squadre"
-        >
-        @if(profileForm.controls.numeroSquadre.getError('required')){
-            <mat-error>
-                Il numero di squadre è obbligatorio
-            </mat-error>
-        }
-        @if(profileForm.controls.numeroSquadre.getError('min')){
-            <mat-error>
-                Il numero di squadre deve essere maggiore o uguale a 4
-            </mat-error>
-        }
-        @if(profileForm.controls.numeroSquadre.getError('max')){
-            <mat-error>
-                Il numero di squadre deve essere minore o uguale a 16
-            </mat-error>
-        }
-    </mat-form-field>
-    <mat-label>Squadra Iniziale</mat-label>
-    <mat-form-field class="w-full" appearance="outline">
-        <input 
-            id="squadra-iniziale"
-            formControlName="squadraIniziale" 
-            matInput 
-            placeholder="squadra iniziale"  
-            type="text"
-            aria-label="Squadra Iniziale"
-        >
-        @if(profileForm.controls.squadraIniziale.getError('required')){
-            <mat-error>
-                La squadra iniziale è obbligatoria
-            </mat-error>
-        }
-    </mat-form-field>
-    <mat-label>Budget Iniziale</mat-label>
-    <mat-form-field class="w-full" appearance="outline">
-        <input 
-            id="budget-iniziale"
-            formControlName="budgetIniziale" 
-            matInput 
-            placeholder="budget"  
-            type="number"
-            aria-label="Budget Iniziale"
-        >
-        @if(profileForm.controls.budgetIniziale.getError('required')){
-            <mat-error>
-                Il budget iniziale è obbligatorio
-            </mat-error>
-        }
-        @if(profileForm.controls.budgetIniziale.getError('min')){
-            <mat-error>
-                Il budget iniziale deve essere maggiore o uguale a 0
-            </mat-error>
-        }
-    </mat-form-field>
-    <button type="submit" matButton="outlined" [disabled]="!profileForm.valid" (click)="onSubmit()">
-        Aggiungi Lega
-    </button>
+            Aggiungi Lega
+        </button>
+    </div>
 </form>

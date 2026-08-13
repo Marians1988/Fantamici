@@ -12,6 +12,10 @@ interface LegaForm {
   numeroSquadre: FormControl<number>,
   budgetIniziale: FormControl<number>,
   squadraIniziale: FormControl<string>,
+  numeroPortieri: FormControl<number>,
+  numeroDifensori: FormControl<number>,
+  numeroCentrocampisti: FormControl<number>,
+  numeroAttaccanti: FormControl<number>,
 }
 
 @Component({
@@ -40,7 +44,23 @@ export class CreaLegaDialogComponent {
       nonNullable: true
     }),
      budgetIniziale: new FormControl<number>(1, {
-      validators: [Validators.required, Validators.min(1), Validators.maxLength(10000)],
+      validators: [Validators.required, Validators.min(1), Validators.max(10000)],
+      nonNullable: true
+    }),
+    numeroPortieri: new FormControl<number>(1, {
+      validators: [Validators.required, Validators.min(1), Validators.max(8)],
+      nonNullable: true
+    }),
+    numeroDifensori: new FormControl<number>(1, {
+      validators: [Validators.required, Validators.min(1), Validators.max(18)],
+      nonNullable: true
+    }),
+    numeroCentrocampisti: new FormControl<number>(1, {
+      validators: [Validators.required, Validators.min(1), Validators.max(18)],
+      nonNullable: true
+    }),
+    numeroAttaccanti: new FormControl<number>(1, {
+      validators: [Validators.required, Validators.min(1), Validators.max(12)],
       nonNullable: true
     }),
   
@@ -52,6 +72,10 @@ export class CreaLegaDialogComponent {
       nome: this.profileForm.value.nomeLega || '',
       budgetIniziale: this.profileForm.value.budgetIniziale || 0,
       numeroSquadre: this.profileForm.value.numeroSquadre || 1,
+      numeroPortieri: this.profileForm.value.numeroPortieri || 1,
+      numeroDifensori: this.profileForm.value.numeroDifensori || 1,
+      numeroCentrocampisti: this.profileForm.value.numeroCentrocampisti || 1,
+      numeroAttaccanti: this.profileForm.value.numeroAttaccanti || 1,
       squadre: [{
         nomeSquadra: this.profileForm.value.squadraIniziale || '',
         adminKeycloackId: this.authService.getId() || ''

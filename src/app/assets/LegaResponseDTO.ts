@@ -6,5 +6,9 @@ export interface LegaResponseDTO {
   budgetIniziale: number;
   adminKeycloackId: string;
   numeroSquadre: number;
+  numeroPortieri: number;
+  numeroDifensori: number;
+  numeroCentrocampisti: number;
+  numeroAttaccanti: number;
   squadre: SquadreSummaryDTO[];
 }

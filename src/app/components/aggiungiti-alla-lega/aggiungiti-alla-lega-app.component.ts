@@ -6,6 +6,8 @@ import { LegaService } from '../../shared-service/lega.service';
 import { AggiungiLegaDialogComponent } from './dialog-aggiungi-lega/aggiungi-lega-dialog.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { HttpErrorResponse } from '@angular/common/http';
+import { extractErrorMessage } from '../../shared-service/utility';
 @Component({
   selector: 'app-aggiungiti-alla-lega-app-component',
   imports: [MatButton],
@@ -42,13 +44,14 @@ export class AggiungitiAllaLegaAppComponent implements OnDestroy {
                     verticalPosition: 'bottom', 
                   });
               }),
-              catchError((error) => {
-                this.snackBar.open(error?.errorMessage || 'Lega non disponibile.', 'Chiudi', {
+              catchError((err: HttpErrorResponse) => {
+                const messaggio = extractErrorMessage(err); 
+                this.snackBar.open(messaggio, 'Chiudi', {
                   duration: 3000,
                   horizontalPosition: 'center',
                   verticalPosition: 'bottom',
                 });
-                return throwError(() => error);
+                return throwError(() => err);
               })
           );
         }),

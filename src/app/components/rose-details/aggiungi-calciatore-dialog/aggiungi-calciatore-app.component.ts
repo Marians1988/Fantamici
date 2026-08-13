@@ -1,4 +1,4 @@
-import { Component,inject, OnDestroy} from '@angular/core';
+import { Component,inject, OnDestroy, OnInit} from '@angular/core';
 ;
 import { MatOption, MatSelect } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
@@ -8,6 +8,7 @@ import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { MatError, MatFormField, MatInputModule, MatLabel } from '@angular/material/input';
 import { Calciatore, Ruolo } from '../../../models/models';
+import { LegaService } from '../../../shared-service/lega.service';
 
 
 @Component({
@@ -30,10 +31,10 @@ export class AggiungiCalciatoreAppComponent implements OnDestroy {
     private readonly destroy$ = new Subject<void>();
 
     roles: Ruolo[] = [
-        { value: 'Portiere', type: 'P' },
-        { value: 'Difensore', type: 'D' },
+        { value: 'Portiere', type: 'P'},
+        { value: 'Difensore', type: 'D'},
         { value: 'Centrocampista', type: 'C' },
-        { value: 'Attaccante', type: 'A' }
+        { value: 'Attaccante', type: 'A'}
     ];
 
     playerForm: FormGroup = this.fb.group({
