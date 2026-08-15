@@ -1,12 +1,14 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable, Injector, signal } from '@angular/core';
 import { BehaviorSubject} from 'rxjs';
 import { jwtDecode } from 'jwt-decode'; // Libreria standard per decodificare i JWT
 import Keycloak from 'keycloak-js';
+import { SseNotificheService } from './sse-notifiche.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+ private readonly injector = inject(Injector);
   // Un BehaviorSubject permette a tutti i componenti di "ascoltare" il ruolo in tempo reale
   private readonly userRole$ = new BehaviorSubject<string | null>(sessionStorage.getItem('user_role'));
   private readonly keycloak = inject(Keycloak);
@@ -63,6 +65,10 @@ export class AuthService {
   }
   // Svuota tutto al logout
   public logout(): void {
+    if(!this.isAdmin()){
+      const sseService = this.injector.get(SseNotificheService);
+      sseService.chiudiConnessione();
+    }
     this.keycloak.logout({ redirectUri: globalThis.location.origin });
     sessionStorage.removeItem('user_role');
     this.userRole$.next(null);

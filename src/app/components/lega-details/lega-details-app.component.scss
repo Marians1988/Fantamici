@@ -6,19 +6,12 @@
    
 }
 
-.mat-mdc-card {
+.custom-card {
   @include mat.card-overrides((
     subtitle-text-color:#005cbb,
     outlined-container-color:#f5f8fa,
-    outlined-outline-color: #005cbb,
+    outlined-outline-color: #c4c7c5,
     outlined-outline-width: 4px
   ));
 
-  /* Aggiunge un'ombra personalizzata con una sfumatura bluastre simile al tema primary */
-  box-shadow: 0 4px 20px -2px rgba(13, 71, 161, 0.12), 0 2px 6px -1px rgba(0, 0, 0, 0.06);
-  transition: box-shadow 0.3s ease;
-
-  &:hover {
-    box-shadow: 0 10px 25px -5px rgba(13, 71, 161, 0.2), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
-  }
 }

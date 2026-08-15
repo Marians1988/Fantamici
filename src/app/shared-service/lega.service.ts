@@ -31,12 +31,15 @@ export class LegaService {
     public setLegaResponseDTO(lega: LegaResponseDTO | undefined): void {
         this.legaResponseDTO.set(lega);
     }
+
     public getLegaResponseDTO(): LegaResponseDTO | undefined {
         return this.legaResponseDTO()
     }
+
     public setRosaSquadraDTO(rose: RosaSquadraDTO[] | undefined): void {
         this.roseSquadraDTO.set(rose);
     }
+
     public getRosaSquadraDTO(): RosaSquadraDTO[] | undefined {        
         return this.roseSquadraDTO()
     }
@@ -57,6 +60,14 @@ export class LegaService {
         return this.http.delete<void>(`${environment.apiUrl}/api/admin/leghe/${this.legaResponseDTO()?.id}`);
     }
 
+    public aggiungiSquadra(newSquadra: AggiungiSquadraDTO): Observable<string> {
+        return this.http.post(`${environment.apiUrl}/api/leghe`, newSquadra,{ responseType: 'text'});
+    }
+
+     public eliminaSquadra(squadraId: string): Observable<void> {
+       return this.http.delete<void>(`${environment.apiUrl}/api/admin/leghe/${this.legaResponseDTO()?.id}/${squadraId}`);
+    }
+
     public aggiungiGiocatore(assegnazioneAsta: AssegnazioneAstaDTO): Observable<AstaNotificationDTO> {
         return this.http.post<AstaNotificationDTO>(`${environment.apiUrl}/api/admin/asta/assegna`, assegnazioneAsta);
     }
@@ -65,8 +76,4 @@ export class LegaService {
         return this.http.delete<void>(`${environment.apiUrl}/api/admin/asta/squadre/${squadraId}/calciatori/${calciatoreId}`);
     }
         
-    public aggiungiSquadra(newSquadra: AggiungiSquadraDTO): Observable<string> {
-        return this.http.post(`${environment.apiUrl}/api/leghe`, newSquadra,{ responseType: 'text'});
-    }
-    
 }

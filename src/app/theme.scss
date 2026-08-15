@@ -29,9 +29,9 @@
 
   @include mat.card-overrides((
     subtitle-text-color:#005cbb,
-    outlined-container-color: white,
+    outlined-container-color:#f5f8fa,
     outlined-outline-color: #005cbb,
-    outlined-outline-width: 2px,
+    outlined-outline-width: 4px,
   ));
 
 }

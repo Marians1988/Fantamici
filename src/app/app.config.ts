@@ -9,6 +9,7 @@ import {
   createInterceptorCondition
 } from 'keycloak-angular';
 import { nullToUndefinedInterceptor } from './interceptors/null-to-undefined.interceptor';
+import { authErrorInterceptor } from './interceptors/unauthorized.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -17,7 +18,7 @@ export const appConfig: ApplicationConfig = {
     
     // 1. Registriamo l'interceptor funzionale per intercettare le richieste HTTP
     provideHttpClient(
-      withInterceptors([includeBearerTokenInterceptor,nullToUndefinedInterceptor])
+      withInterceptors([authErrorInterceptor,includeBearerTokenInterceptor,nullToUndefinedInterceptor])
     ),
     
     // 2. Configura l'interceptor dicendogli quali URL (Spring Boot) devono ricevere il JWT

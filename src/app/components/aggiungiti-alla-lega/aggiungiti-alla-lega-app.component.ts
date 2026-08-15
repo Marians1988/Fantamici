@@ -7,7 +7,7 @@ import { AggiungiLegaDialogComponent } from './dialog-aggiungi-lega/aggiungi-leg
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpErrorResponse } from '@angular/common/http';
-import { extractErrorMessage } from '../../shared-service/utility';
+import { extractErrorMessage } from '../../utility-class/utility';
 @Component({
   selector: 'app-aggiungiti-alla-lega-app-component',
   imports: [MatButton],

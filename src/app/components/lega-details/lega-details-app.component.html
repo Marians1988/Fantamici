@@ -12,7 +12,7 @@
                 <span class="font-bold" >{{ legaService.getLegaResponseDTO()?.id?.toString() || '' }}</span>
             </mat-chip>
         }
-        <mat-card class="mat-mdc-card pb-2" appearance="outlined">
+        <mat-card class="pb-2" appearance="outlined">
             <mat-card-header>
                 <div 
                     mat-card-avatar 
@@ -24,14 +24,14 @@
                     DETTAGLI LEGA: {{ legaService.getLegaResponseDTO()?.nome }} 2026/2027
                 </mat-card-title>
                 <mat-card-subtitle>Data creazione: <span class=" text-black">15 Agosto 2026</span></mat-card-subtitle>
-                <mat-card-subtitle>Numero partecipanti: <span class=" text-black">{{ legaService.getLegaResponseDTO() }}</span></mat-card-subtitle>
-                <mat-card-subtitle>Budget rimanente: <span class=" text-black">$1000</span></mat-card-subtitle>
+                <mat-card-subtitle>Numero partecipanti: <span class=" text-black">{{ legaService.getLegaResponseDTO()?.squadre?.length }}</span></mat-card-subtitle>
+                <mat-card-subtitle>Budget iniziale: <span class=" text-black">$1000</span></mat-card-subtitle>
                 <mat-card-subtitle>Status: <span class=" text-green-500">Attiva</span></mat-card-subtitle>
                 <mat-card-subtitle>Regole: <span class=" text-black">Standard</span></mat-card-subtitle>
             </mat-card-header>
             @if(authService.isAdmin()) {
                 <mat-card-actions align="end" class="pt-2">
-                    <button mat-button color="primary" (click)="openEliminaLegaDialog()">ELIMINA LEGA</button>
+                    <button mat-button color="primary" (click)="openEliminaLegaDialog()">Elimina Lega</button>
                 </mat-card-actions>
             }  
         </mat-card>
@@ -42,16 +42,19 @@
     <!-- Griglia a 3 colonne su schermi grandi, 2 su medi, 1 su mobile -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         @for (squadra of legaService.getLegaResponseDTO()?.squadre; track squadra.id) {
-        <mat-card appearance="outlined" class="flex flex-col justify-between h-full ">
-            <mat-card-header>
-            <div 
-                mat-card-avatar 
-                class="bg-[#005cbb] text-white flex items-center justify-center rounded-full"
-            >
-                <mat-icon>sports_soccer</mat-icon>
-            </div>
-            <mat-card-title class="font-semibold">{{ squadra.nomeSquadra }}</mat-card-title>
-            <mat-card-subtitle >Budget Iniziale: {{ legaService.getLegaResponseDTO()?.budgetIniziale }}</mat-card-subtitle>
+        <mat-card [class.custom-card] = "authId === squadra.utentKeycloackId" class="user-card" appearance="outlined" class="flex flex-col justify-between h-full ">
+            <mat-card-header class="flex flex-row"  >
+                <div 
+                    id="card-icon"
+                    mat-card-avatar 
+                    class="bg-[#005cbb] text-white flex items-center justify-center rounded-full mr-2"
+                >
+                    <mat-icon>sports_soccer</mat-icon>
+                </div>
+                <div id="card-header-text">
+                    <mat-card-title class="font-semibold break-all">{{ squadra.nomeSquadra }}</mat-card-title>
+                    <mat-card-subtitle class="break-all">Budget Iniziale: {{ legaService.getLegaResponseDTO()?.budgetIniziale }}</mat-card-subtitle>
+                </div>
             </mat-card-header>
 
             <mat-card-content class="mt-4">
@@ -61,9 +64,9 @@
             </div>
             </mat-card-content>
 
-            @if(authService.isAdmin()) {
+            @if(authService.isAdmin() && !(authId === squadra.utentKeycloackId)) {
                 <mat-card-actions align="end" class="pt-2">
-                    <button mat-button color="primary">GESTISCI ROSA</button>
+                    <button mat-button color="primary" (click)="openEliminaSquadraDialog(squadra.id)">Elimina Rosa</button>
                 </mat-card-actions>
             }
         </mat-card>

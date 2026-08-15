@@ -6,10 +6,11 @@ import { MatTab, MatTabGroup } from '@angular/material/tabs';
 import { AuthService } from '../../shared-service/auth-service';
 import { CreaLegaAppComponent } from '../crea-lega/crea-lega-app.component';
 import { LegaService } from '../../shared-service/lega.service';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, takeUntil, tap } from 'rxjs';
 import { LegaDetailsAppComponent } from '../lega-details/lega-details-app.component';
 import { AggiungitiAllaLegaAppComponent } from '../aggiungiti-alla-lega/aggiungiti-alla-lega-app.component';
 import { RoseDetailsAppComponent } from '../rose-details/rose-details-app.component';
+import { AstaNotificationService } from '../../shared-service/asta-notification.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -19,6 +20,7 @@ import { RoseDetailsAppComponent } from '../rose-details/rose-details-app.compon
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   private readonly legaService = inject(LegaService);
+  private readonly astaNotificationService = inject(AstaNotificationService);
   private readonly router = inject(Router);
   private readonly destroy$ = new Subject<void>();
   readonly authService = inject(AuthService);
@@ -46,26 +48,33 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   onTabChange(index:number) {
     if(index === 0) {
-      if(this.legaService.getLegaResponseDTO() === undefined) 
-      this.getLeghe(); 
+      if(this.legaService.getLegaResponseDTO() !== undefined) 
+        this.getLeghe(); 
     }else if(index === 1) {
       const legaId = this.legaService.getLegaResponseDTO()?.id;
       if(legaId !== undefined) {
-        this.getRose(legaId);
+        this.refreshRose(legaId);
       }
     }
   }
 
   private getLeghe() {
     this.legaService.getLeghe()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (lega) => {
+      .pipe(
+        tap(lega => {
           console.log('Leghe retrieved:', lega);
           this.legaService.setLegaResponseDTO(lega);
-          const{numeroPortieri,numeroDifensori,numeroCentrocampisti,numeroAttaccanti} = lega ;
+          const{id,numeroPortieri,numeroDifensori,numeroCentrocampisti,numeroAttaccanti} = lega ;
           const numeroRosa = numeroPortieri+numeroDifensori+numeroCentrocampisti+numeroAttaccanti;
           this.legaService.setNumeroCalciatoriPerRosa(numeroRosa);
+          if(!this.authService.isAdmin())
+            this.astaNotificationService.iscrivitiAlleNotifiche(id);
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe({
+        next: () => {
+            console.log("Lega avviata correttamente!")
         },
         error: (err) => {
           console.error('Errore durante il recupero delle leghe:', err);
@@ -73,7 +82,23 @@ export class DashboardComponent implements OnInit, OnDestroy {
       });
   }
 
-  private getRose(legaId: number) {
+  private refreshLeghe() {
+    this.legaService.getLeghe()
+      .pipe(
+        tap(lega => this.legaService.setLegaResponseDTO(lega)),
+        takeUntil(this.destroy$)
+      )
+      .subscribe({
+        next: () => {
+            console.log("Lega refreshata correttamente!")
+        },
+        error: (err) => {
+          console.error('Errore durante il recupero delle leghe:', err);
+        }
+      });
+  }
+
+  private refreshRose(legaId: number) {
     this.legaService.getRose(legaId)
       .pipe(takeUntil(this.destroy$))
       .subscribe({

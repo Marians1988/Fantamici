@@ -11,7 +11,7 @@ import { MatIcon } from '@angular/material/icon';
 import { AuthService } from '../../shared-service/auth-service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { extractErrorMessage } from '../../shared-service/utility';
+import { extractErrorMessage } from '../../utility-class/utility';
 
 @Component({
   selector: 'app-rose-details-app-component',
